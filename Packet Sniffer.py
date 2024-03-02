@@ -3,10 +3,13 @@ import struct
 import textwrap
 
 def  main():
-    conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
+    HOST = '192.168.1.183'
+    conn = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+
+    conn.bind((HOST, 0))
 
     while True:
-        raw_data, addr = conn.recvfrom(65536)
+        raw_data, _ = conn.recvfrom(65000)
         dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data)
         print('\n Ethernet_frame:')
         print('Destination: {}, Source: {}, Protocol: {}'.format(dest_mac, src_mac, eth_proto))
